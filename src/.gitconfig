@@ -1,0 +1,25 @@
+[include]
+    path = ~/.local_gitconfig
+[gpg]
+    program = gpg2
+[commit]
+    gpgsign = true
+[alias]
+    graphthis = log --oneline --decorate --graph
+    graph = graphthis --exclude="mitko/*_bak?" --branches --exclude="*/mitko/*_bak?" # --remotes --tags
+    # graph = graphthis --exclude="mitko/*_bak?" --branches
+    graphall = graphthis --all
+    # graphall = graphthis --exclude="*/mitko/*_bak?" --remotes --tags --all
+    unpushed = log --exclude="mitko/*_bak?" --branches --not --remotes --no-walk --decorate --oneline
+    unpushedall = log --branches --not --remotes --no-walk --decorate --oneline
+[tag]
+    gpgsign = true
+[rerere]
+    enabled = true
+[gc]
+    reflogExpire = never
+#[filter "lfs"]
+#    required = true
+#    clean = git-lfs clean -- %f
+#    smudge = git-lfs smudge -- %f
+#    process = git-lfs filter-process
