@@ -6,12 +6,18 @@
 	graphall = graphthis --all
 	unpushed = log --exclude="mitko/*_bak?" --branches --not --remotes --no-walk --decorate --oneline
 	unpushedall = log --branches --not --remotes --no-walk --decorate --oneline
+[branch]
+	autoSetupRebase = always
 [commit]
 	gpgSign = true
 [gc]
 	reflogExpire = never
 [gpg]
 	program = gpg2
+[init]
+	defaultBranch = main
+[rebase]
+	autoSquash = true
 [rerere]
 	enabled = true
 [tag]
