@@ -35,7 +35,7 @@ shopt -s histappend
 # else messes with the common ~/.bash_history file
 history_dir=${HOME}/.bash_history.d
 mkdir -p ${history_dir}
-export HISTFILE=${history_dir}/tty_$(basename $(tty))
+export HISTFILE=${history_dir}/$(tty | tr / _)
 
 # Don't truncate HISTFILE
 export HISTFILESIZE=
