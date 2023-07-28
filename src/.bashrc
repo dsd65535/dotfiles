@@ -58,3 +58,8 @@ rh() {
 		grep -rn ${history_dir} -e "$@"
 	fi
 }
+
+
+## Prompt settings ##
+
+PS1="\[\e[00;36m\]\w\[\e[00m\]\$ "
