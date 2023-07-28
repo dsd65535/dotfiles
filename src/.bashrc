@@ -50,3 +50,11 @@ export HISTTIMEFORMAT="[%F %T] "
 
 # Save commands right away in case session terminates early
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+rh() {
+	if command -v rg &> /dev/null; then
+		rg "$@" ${history_dir}
+	else
+		grep -rn ${history_dir} -e "$@"
+	fi
+}
