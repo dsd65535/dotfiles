@@ -1,5 +1,7 @@
 [include]
 	path = ~/.local_gitconfig
+[core]
+	editor = vim
 [alias]
 	graphthis = log --oneline --decorate --graph
 	graph = graphthis --exclude="mitko/*_bak?" --branches --exclude="*/mitko/*_bak?" --remotes --tags
