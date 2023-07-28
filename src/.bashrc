@@ -20,6 +20,11 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# Source aliases
+if [ -f ~/.bash_aliases ]; then
+	. ~/.bash_aliases
+fi
+
 . "$HOME/.cargo/env"
 export PATH=$PATH:${CARGO_HOME:-~/.cargo}/bin
 
