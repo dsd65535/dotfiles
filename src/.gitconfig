@@ -8,6 +8,7 @@
 	graphall = graphthis --all
 	unpushed = log --exclude="mitko/*_bak?" --branches --not --remotes --no-walk --decorate --oneline
 	unpushedall = log --branches --not --remotes --no-walk --decorate --oneline
+	sign = rebase --exec 'git commit --amend --no-edit -n -S' -i
 [branch]
 	autoSetupRebase = always
 [commit]
