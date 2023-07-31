@@ -90,3 +90,6 @@ mc() {
 		cd ${1}
 	fi
 }
+
+# This is already set on most systems
+alias ls 1>/dev/null 2>/dev/null || alias ls="ls --color=auto"
