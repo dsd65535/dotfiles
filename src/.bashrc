@@ -68,3 +68,8 @@ rh() {
 ## Prompt settings ##
 
 PS1="\[\e[0;35m\]\h\[\e[0m\]:\[\e[0;36m\]\w\[\e[0m\]\$ "
+
+
+## macOS settings ##
+export GPG_TTY=$(tty)
+export BASH_SILENCE_DEPRECATION_WARNING=1
