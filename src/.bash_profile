@@ -1,8 +1,4 @@
-# .bash_profile
-
-# Get the aliases and functions
+# Source startup files used in non-login shells
 if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
-
-# User specific environment and startup programs

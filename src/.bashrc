@@ -1,21 +1,16 @@
-# .bashrc
-
-# Source global definitions
+# Source global startup files
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-# User specific environment
+# User-specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
 	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
-
-# User specific aliases and functions
+# Source user-specific startup files
 if [ -d ~/.bashrc.d ]; then
 	for rc in ~/.bashrc.d/*; do
 		if [ -f "$rc" ]; then
@@ -23,5 +18,4 @@ if [ -d ~/.bashrc.d ]; then
 		fi
 	done
 fi
-
 unset rc
