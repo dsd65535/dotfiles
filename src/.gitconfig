@@ -15,12 +15,17 @@
 	gpgSign = true
 [gc]
 	reflogExpire = never
+	reflogExpireUnreachable = never
 [gpg]
 	program = gpg2
 [init]
 	defaultBranch = main
 [rebase]
+	stat = true
 	autoSquash = true
+	autoStash = true
+	missingCommitsCheck = warn
+	abbreviateCommands = true
 [rerere]
 	enabled = true
 [tag]
