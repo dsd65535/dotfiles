@@ -1,43 +1,25 @@
-venv() {
+## Utility functions ##
+
+mc() {
 	if [ "$#" -ne 1 ]; then
-		echo "Usage: ${FUNCNAME[0]} <name of virtual environment>"
-	else
-		source ~/.local/share/virtualenvs/${1}/bin/activate
+		echo "Usage: ${FUNCNAME[0]} <name of directory>"
+		return 1
 	fi
+
+	mkdir -p ${1}
+	cd ${1}
 }
 
-mkvenv() {
-	if [ "$#" -ne 1 ]; then
-		echo "Usage: ${FUNCNAME[0]} <name of virtual environment>"
-	else
-		python3 -m venv ~/.local/share/virtualenvs/${1}
+diff_head() {
+	if [ "$#" -ne 2 ]; then
+		echo "Usage: ${FUNCNAME[0]} <file 0> <file 1>"
+		return 1
 	fi
-}
 
-rmvenv() {
-	if [ "$#" -ne 1 ]; then
-		echo "Usage: ${FUNCNAME[0]} <name of virtual environment>"
-	else
-		rm -rf ~/.local/share/virtualenvs/${1}
-	fi
-}
-
-check() {
-	reorder-python-imports $@ || :
-	black $@
-	pylint --enable=useless-suppression $@
-	mypy --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs $@
-}
-
-rshark() {
-	ssh $1 tcpdump -U -w - -i $2 $3 | wireshark -k -i -
-}
-
-opn() {
-	for file in "$@"; do
-		echo $file
-		xdg-open "$file"
-	done
+	line_count_1=$(cat $1 | wc -l)
+	line_count_2=$(cat $2 | wc -l)
+	line_count=$(( line_count_1 > line_count_2 ? line_count_2 : line_count_1 ))
+	diff <(head -n ${line_count} ${1}) <(head -n ${line_count} ${2})
 }
 
 lastfile() {
@@ -49,47 +31,84 @@ lastfile() {
 		done
 }
 
-ssh_noh() {
-	ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q "$@"
-}
-
-scp_noh() {
-	scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q "$@"
-}
-
 dump() {
 	if [ "$#" -ne 2 ]; then
 		echo "Usage: ${FUNCNAME[0]} <base_addr> <length>"
-	else
-		for offset in $(seq ${2}); do
-			address=$(( ${1} - 4 + 4 * ${offset} ))
-			printf "0x%X: " ${address}
-			devmem ${address}
-		done
+		return 1
 	fi
+
+	for offset in $(seq ${2}); do
+		address=$(( ${1} - 4 + 4 * ${offset} ))
+		printf "0x%X: " ${address}
+		devmem ${address} || return $?
+	done
 }
 
-diffl() {
-	if [ "$#" -ne 2 ]; then
-		echo "Usage: ${FUNCNAME[0]} <file 0> <file 1>"
-	else
-		mkdir -p ${1}
-		cd ${1}
-		l1=$(cat $1 | wc -l)
-		l2=$(cat $2 | wc -l)
-		l=$(( l1 > l2 ? l2 : l1 ))
-		diff <(head -n ${l} ${1}) <(head -n ${l} ${2})
-	fi
+opn() {
+	for file in "$@"; do
+		echo $file
+		xdg-open "$file"
+	done
 }
 
-mc() {
+
+## Python-related functions ##
+
+venv() {
 	if [ "$#" -ne 1 ]; then
-		echo "Usage: ${FUNCNAME[0]} <name of directory>"
-	else
-		mkdir -p ${1}
-		cd ${1}
+		echo "Usage: ${FUNCNAME[0]} <name of virtual environment>"
+		return 1
 	fi
+
+	source ~/.local/share/virtualenvs/${1}/bin/activate
 }
+
+mkvenv() {
+	if [ "$#" -ne 1 ]; then
+		echo "Usage: ${FUNCNAME[0]} <name of virtual environment>"
+		return 1
+	fi
+
+	python3 -m venv ~/.local/share/virtualenvs/${1}
+}
+
+rmvenv() {
+	if [ "$#" -ne 1 ]; then
+		echo "Usage: ${FUNCNAME[0]} <name of virtual environment>"
+		return 1
+	fi
+
+	rm -rf ~/.local/share/virtualenvs/${1}
+}
+
+check() {
+	reorder-python-imports $@
+	black $@ || return $?
+	pylint --enable=useless-suppression $@ || return $?
+	mypy --disallow-untyped-calls --disallow-untyped-defs \
+		--disallow-incomplete-defs $@ || return $?
+}
+
+
+## Miscellaneous functions and aliases ##
+
+rshark() {
+	if [ "$#" -lt 2 ]; then
+		echo "Usage: ${FUNCNAME[0]} <hostname> <interface> [<option>...]"
+		return 1
+	fi
+
+	ssh ${1} tcpdump -U -w - -i ${@:2} | wireshark -k -i -
+}
+
+alias ssh_noh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+alias scp_noh="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+
+## Default flag aliases ##
+
+alias rg="rg --hidden"
+alias fd="fd --hidden"
 
 # This is already set on most systems
 alias ls 1>/dev/null 2>/dev/null || alias ls="ls --color=auto"
