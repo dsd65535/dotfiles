@@ -3,6 +3,16 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# Source global completions
+if [ -d /usr/local/etc/bash_completion.d/ ]; then
+	for rc in /usr/local/etc/bash_completion.d/*; do
+		if [ -f "$rc" ]; then
+			. "$rc"
+		fi
+	done
+fi
+unset rc
+
 # User-specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
