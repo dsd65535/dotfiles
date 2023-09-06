@@ -104,6 +104,18 @@ rshark() {
 alias ssh_noh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias scp_noh="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
+dump_tmux() {
+	if [ "$#" -ne 1 ]; then
+		echo "Usage: ${FUNCNAME[0]} <name of directory>"
+		return 1
+	fi
+
+	mkdir -p ${1}
+	for target in $(tmux list-panes -a -F "#S:#I.#P"); do
+		tmux capture-pane -epS - -t ${target} > ${1}/${target}
+	done
+}
+
 
 ## Default flag aliases ##
 
