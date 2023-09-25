@@ -16,8 +16,6 @@
 [gc]
 	reflogExpire = never
 	reflogExpireUnreachable = never
-[gpg]
-	program = gpg2
 [init]
 	defaultBranch = main
 [rebase]
