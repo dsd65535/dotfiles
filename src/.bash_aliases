@@ -1,6 +1,6 @@
 ## Utility functions ##
 
-mc() {
+mkcd() {
 	if [ "$#" -ne 1 ]; then
 		echo "Usage: ${FUNCNAME[0]} <name of directory>"
 		return 1
