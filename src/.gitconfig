@@ -4,8 +4,8 @@
 	editor = vim
 [alias]
 	graphthis = log --oneline --decorate --graph
-	graph = graphthis --exclude="mitko/*_bak?" --branches --exclude="*/mitko/*_bak?" --remotes --tags
-	graphall = graphthis --all
+	graph = log --oneline --decorate --graph --exclude="mitko/*_bak?" --branches --exclude="*/mitko/*_bak?" --remotes --tags
+	graphall = log --oneline --decorate --graph --all
 	unpushed = log --exclude="mitko/*_bak?" --branches --not --remotes --no-walk --decorate --oneline
 	unpushedall = log --branches --not --remotes --no-walk --decorate --oneline
 	sign = rebase --exec 'git commit --amend --no-edit -n -S' -i
