@@ -35,8 +35,11 @@ if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
 
-. "$HOME/.cargo/env"
-export PATH=$PATH:${CARGO_HOME:-~/.cargo}/bin
+# Source cargo
+if [ -f "$HOME/.cargo/env" ]; then
+	. "$HOME/.cargo/env"
+	export PATH=$PATH:${CARGO_HOME:-~/.cargo}/bin
+fi
 
 
 ## History settings ##
