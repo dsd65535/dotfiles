@@ -123,8 +123,12 @@ dump_tmux() {
 
 ## Default flag aliases ##
 
-alias rg="rg --hidden"
-alias fd="fd --hidden"
+if command -v rg &> /dev/null; then
+	alias rg="rg --hidden"
+fi
+if command -v fd &> /dev/null; then
+	alias fd="fd --hidden"
+fi
 
 # This is already set on most systems
 alias ls 1>/dev/null 2>/dev/null || alias ls="ls --color=auto"
