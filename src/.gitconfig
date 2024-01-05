@@ -1,5 +1,3 @@
-[include]
-	path = ~/.local_gitconfig
 [core]
 	editor = vim
 [alias]
@@ -30,3 +28,5 @@
 	gpgSign = true
 [protocol "file"]
 	allow = always
+[include]
+	path = ~/.local_gitconfig
