@@ -1,1 +1,2 @@
+slstatus &
 exec dwm
