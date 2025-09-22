@@ -30,3 +30,5 @@
 	allow = always
 [include]
 	path = ~/.gitconfig.local
+[push]
+	default = upstream
