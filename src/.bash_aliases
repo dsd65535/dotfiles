@@ -45,14 +45,14 @@ dump() {
 }
 
 opn() {
-	if command -v open &> /dev/null; then
-		open "$@"
-	else
-		for file in "$@"; do
-			echo $file
+	for file in "$@"; do
+		echo $file
+		if command -v open &> /dev/null; then
+			open "$file"
+		else
 			xdg-open "$file"
-		done
-	fi
+		fi
+	done
 }
 
 
