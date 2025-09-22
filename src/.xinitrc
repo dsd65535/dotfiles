@@ -1,2 +1,3 @@
 slstatus &
+dunst &
 exec dwm
