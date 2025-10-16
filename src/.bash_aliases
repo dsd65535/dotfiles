@@ -85,6 +85,10 @@ rmvenv() {
 	rm -rf ~/.local/share/virtualenvs/${1}
 }
 
+lsvenv() {
+	ls -1 ~/.local/share/virtualenvs
+}
+
 check() {
 	reorder-python-imports $@
 	black $@ || return $?
