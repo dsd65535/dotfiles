@@ -97,6 +97,10 @@ check() {
 		--disallow-incomplete-defs $@ || return $?
 }
 
+checkall() {
+    check $(fdfind "\\.py$" src)
+}
+
 
 ## Miscellaneous functions and aliases ##
 
