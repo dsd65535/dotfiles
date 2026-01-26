@@ -11,6 +11,13 @@ if [ -d /usr/local/etc/bash_completion.d/ ]; then
 		fi
 	done
 fi
+if [ -d /usr/share/bash-completion/completions ]; then
+	for rc in /usr/share/bash-completion/completions/*; do
+		if [ -f "$rc" ]; then
+			. "$rc"
+		fi
+	done
+fi
 unset rc
 
 # User-specific environment
