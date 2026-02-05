@@ -101,6 +101,10 @@ checkall() {
     check $(fdfind "\\.py$" src)
 }
 
+calc() {
+    python3 -c "print(${1})"
+}
+
 
 ## Miscellaneous functions and aliases ##
 
