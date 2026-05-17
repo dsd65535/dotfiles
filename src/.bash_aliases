@@ -55,6 +55,10 @@ opn() {
 	done
 }
 
+pa() {
+    ping ping.archlinux.org
+}
+
 
 ## Python-related functions ##
 
