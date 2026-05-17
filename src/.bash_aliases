@@ -59,6 +59,10 @@ pa() {
     ping ping.archlinux.org
 }
 
+gdiff() {
+    git diff -U0 --word-diff --no-index -- ${@}
+}
+
 
 ## Python-related functions ##
 
