@@ -53,7 +53,7 @@ shopt -s histappend
 # else messes with the common ~/.bash_history file
 history_dir=${HOME}/.bash_history.d
 mkdir -p ${history_dir}
-export HISTFILE=${history_dir}/$(tty | tr / _)
+export HISTFILE=${history_dir}/$(tty | tr ' /' '__')
 
 # Don't truncate HISTFILE
 export HISTFILESIZE=
@@ -75,6 +75,38 @@ rh() {
 	else
 		grep -rn ${history_dir} -e "$@"
 	fi
+}
+
+# hf [file] [pattern] - show a history file like `history`, optionally filtered
+hf() {
+	local f=${1:-$HISTFILE}
+	[[ -f $f ]] || f=${history_dir}/$f
+	gawk -v fmt="$HISTTIMEFORMAT" -v pat="$2" '
+		/^#[0-9]+$/ { ts = strftime(fmt, substr($0, 2)); next }
+		{ n++ }
+		pat == "" || $0 ~ pat { printf "%5d  %s%s\n", n, ts, $0 }
+	' "$f"
+}
+
+# rht pattern - like rh, but with timestamps, grouped by file
+rht() {
+	gawk -v fmt="$HISTTIMEFORMAT" -v pat="$1" '
+		BEGINFILE { n = 0; ts = ""; hdr = 0 }
+		/^#[0-9]+$/ { ts = strftime(fmt, substr($0, 2)); next }
+		{ n++ }
+		$0 ~ pat {
+			if (!hdr++) printf "%s%s\n", (seen++ ? "\n" : ""), FILENAME
+			printf "%5d  %s%s\n", n, ts, $0
+		}
+	' "${history_dir}"/*
+}
+
+rhs() {
+	gawk -v fmt="$HISTTIMEFORMAT" -v pat="$1" '
+		BEGINFILE { t = 0; name = FILENAME; sub(".*/", "", name) }
+		/^#[0-9]+$/ { t = substr($0, 2); next }
+		pat == "" || $0 ~ pat { printf "%d\t%s%-12s  %s\n", t, strftime(fmt, t), name, $0 }
+	' "${history_dir}"/* | sort -s -t $'\t' -k1,1n | cut -f2-
 }
 
 
