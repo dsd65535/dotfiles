@@ -140,6 +140,15 @@ dump_tmux() {
 	done
 }
 
+grab_from_tmux() {
+	if [ "$#" -ne 1 ]; then
+		echo "Usage: ${FUNCNAME[0]} <hostname>"
+		return 1
+	fi
+
+	ssh ${1} tmux save-buffer - | xsel -bi
+}
+
 
 ## Default flag aliases ##
 
